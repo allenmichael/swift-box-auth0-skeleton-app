@@ -92,7 +92,7 @@ The remaining documentation describes how to switch the existing credentials to 
 * [Box Platform Developer Documentation](https://developer.box.com/).
 * [Box Platform Blog](https://docs.box.com/blog/).
 * [Auth0 Developer Documentation](https://auth0.com/docs).
-* [A uth0 Blog](https://auth0.com/blog/).
+* [Auth0 Blog](https://auth0.com/blog/).
 
 Support
 -------

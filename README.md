@@ -6,12 +6,12 @@ Just download the assets as a `.zip` file, open the `.xcworkspace` file, and cli
 The remaining documentation describes how to switch the existing credentials to target your own Box Developer and Auth0 accounts.
 
 ## Prerequisites
-[Xcode](https://developer.apple.com/xcode/)
-[Auth0 Account](https://auth0.com)
-[Box Developer Account](https://developer.box.com/)
+* [Xcode](https://developer.apple.com/xcode/)
+* [Auth0 Account](https://auth0.com)
+* [Box Developer Account](https://developer.box.com/)
 
-###Configuration
-####Box Platform Configuration
+### Configuration
+#### Box Platform Configuration
 ##### Step 1. Create a Box application
 1. Log into the [Box Developer Console](https://developer.box.com)
     * Switch to the open beta of the new Developer Console, if needed
@@ -53,7 +53,7 @@ The remaining documentation describes how to switch the existing credentials to 
 4. Enter your "Client ID" from the developer console in the "API Key" field
     * Your application is now authorized to access your Box account
 
-####Auth0 Configuration
+#### Auth0 Configuration
 ##### Step 1. Sign up for a free Auth0 account and configure your first client.
 1. Sign up for a free trial account at [Auth0's site](https://auth0.com/).
 2. You can optionally view their setup and quickstart materials by selecting **Web App** from their [documentation page](https://auth0.com/docs).
@@ -89,17 +89,17 @@ The remaining documentation describes how to switch the existing credentials to 
 3. Build and run your app from Xcode.
 
 ### Next Steps
-[Box Platform Developer Documentation](https://developer.box.com/).
-[Box Platform Blog](https://docs.box.com/blog/).
-[Auth0 Developer Documentation](https://auth0.com/docs).
-[Auth0 Blog](https://auth0.com/blog/).
+* [Box Platform Developer Documentation](https://developer.box.com/).
+* [Box Platform Blog](https://docs.box.com/blog/).
+* [Auth0 Developer Documentation](https://auth0.com/docs).
+* [A uth0 Blog](https://auth0.com/blog/).
 
 Support
 -------
 
-Need to contact us directly? You can post to the
-[Box Developer Forum](https://community.box.com/t5/Developer-Forum/bd-p/DeveloperForum).
-[Auth0 Developer Documentation](https://auth0.com/forum/)
+Need to contact us directly?
+* [Box Developer Forum](https://community.box.com/t5/Developer-Forum/bd-p/DeveloperForum).
+* [Auth0 Developer Documentation](https://auth0.com/forum/)
 
 Copyright and License
 ---------------------

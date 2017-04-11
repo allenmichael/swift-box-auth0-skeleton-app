@@ -55,13 +55,14 @@ The remaining documentation describes how to switch the existing credentials to 
 
 #### Auth0 Configuration
 ##### Step 1. Sign up for a free Auth0 account and configure your first client.
-1. Sign up for a free trial account at [Auth0's site](https://auth0.com/).
-2. You can optionally view their setup and quickstart materials by selecting **Web App** from their [documentation page](https://auth0.com/docs).
-3. Navigate to the [clients page](https://manage.auth0.com/#/clients). You should automatically have a client name **Default**.
+1. Sign up for a free trial account at [Auth0](https://auth0.com/).
+2. You can optionally view setup and quickstart materials by selecting **Native** from the [documentation page](https://auth0.com/docs).
+3. Navigate to the [clients page](https://manage.auth0.com/#/clients). You should automatically have a client named **Default**.
 4. Set the "Client Type" to "Native".
-6. Retrieve the following values:
+5. Retrieve the following values:
     * Domain
     * Client ID
+6. You'll need to register a callback URL for Auth0's Lock library. Follow the steps outlined [here](https://auth0.com/docs/quickstart/native/ios-swift#configure-callback-urls)
 
 #### Step 2. Install the Box Platform Extension
 1. Within your Auth0 Dashboard, click the *Extensions* tab.

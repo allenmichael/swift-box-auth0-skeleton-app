@@ -6,8 +6,10 @@ target 'BoxPlatformSample' do
   use_frameworks!
 
   # Pods for BoxPlatformSample
-  pod 'Lock', '~> 1.27'
+  pod "Lock", "~> 2.0"
+  pod "Auth0", "~> 1.2"
 	pod 'box-ios-sdk'
+  pod 'SimpleKeychain', '~> 0.7'
 
   target 'BoxPlatformSampleTests' do
     inherit! :search_paths

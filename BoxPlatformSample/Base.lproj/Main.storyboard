@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="11762" systemVersion="15G1212" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="BYZ-38-t0r">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="11762" systemVersion="15G1421" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="BYZ-38-t0r">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
@@ -65,8 +65,8 @@
                             <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="MKq-OU-ta8">
                                 <rect key="frame" x="67" y="187" width="240" height="128"/>
                                 <constraints>
+                                    <constraint firstAttribute="width" secondItem="MKq-OU-ta8" secondAttribute="height" multiplier="15:8" id="PcR-ho-TVC"/>
                                     <constraint firstAttribute="width" constant="240" id="VOT-58-2l9"/>
-                                    <constraint firstAttribute="width" secondItem="MKq-OU-ta8" secondAttribute="height" multiplier="15:8" id="sFj-Mg-g7w"/>
                                     <constraint firstAttribute="height" constant="128" id="xZq-WT-C4Q"/>
                                 </constraints>
                             </imageView>
@@ -97,23 +97,27 @@
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ph4-I5-W50">
+                                <rect key="frame" x="161" y="617" width="52" height="30"/>
+                                <state key="normal" title="Log out"/>
+                                <connections>
+                                    <action selector="logout:" destination="Hjc-cF-Dig" eventType="touchUpInside" id="hkU-0Q-WN3"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
-                            <constraint firstItem="aBA-Oq-cQ2" firstAttribute="top" secondItem="2TK-7J-wrl" secondAttribute="bottom" constant="37" id="4kJ-Jm-kdg"/>
-                            <constraint firstItem="FQX-22-cfF" firstAttribute="top" secondItem="iTV-D8-FTM" secondAttribute="bottom" constant="37" id="AxI-aO-8K8"/>
-                            <constraint firstItem="aBA-Oq-cQ2" firstAttribute="leading" secondItem="MKq-OU-ta8" secondAttribute="trailing" constant="-291" id="BmX-WI-DWM"/>
                             <constraint firstItem="MKq-OU-ta8" firstAttribute="centerX" secondItem="bMK-wc-493" secondAttribute="centerX" id="DjK-Vq-uzi"/>
                             <constraint firstItem="MKq-OU-ta8" firstAttribute="top" secondItem="x1b-3g-Z4W" secondAttribute="bottom" constant="167" id="JoZ-LG-phy"/>
                             <constraint firstItem="2TK-7J-wrl" firstAttribute="top" secondItem="MKq-OU-ta8" secondAttribute="bottom" constant="37" id="MJr-RB-I2a"/>
                             <constraint firstItem="iTV-D8-FTM" firstAttribute="top" secondItem="MKq-OU-ta8" secondAttribute="bottom" constant="8" id="Mr0-5w-r5t"/>
                             <constraint firstItem="FQX-22-cfF" firstAttribute="centerX" secondItem="bMK-wc-493" secondAttribute="centerX" id="NCz-Cw-aIt"/>
                             <constraint firstItem="aBA-Oq-cQ2" firstAttribute="top" secondItem="FQX-22-cfF" secondAttribute="bottom" constant="8" id="SEO-iY-320"/>
-                            <constraint firstItem="FQX-22-cfF" firstAttribute="top" secondItem="MKq-OU-ta8" secondAttribute="bottom" constant="66" id="cq4-BW-O8Z"/>
+                            <constraint firstItem="aBA-Oq-cQ2" firstAttribute="centerX" secondItem="bMK-wc-493" secondAttribute="centerX" id="dCf-fb-eRT"/>
                             <constraint firstItem="2TK-7J-wrl" firstAttribute="centerX" secondItem="bMK-wc-493" secondAttribute="centerX" id="kKh-cc-2I1"/>
-                            <constraint firstItem="aBA-Oq-cQ2" firstAttribute="leading" secondItem="iTV-D8-FTM" secondAttribute="trailing" constant="-343" id="pP7-Mj-3Pz"/>
+                            <constraint firstItem="ph4-I5-W50" firstAttribute="centerX" secondItem="bMK-wc-493" secondAttribute="centerX" id="lMd-NV-OPV"/>
                             <constraint firstItem="iTV-D8-FTM" firstAttribute="centerX" secondItem="bMK-wc-493" secondAttribute="centerX" id="rph-UR-HsR"/>
-                            <constraint firstItem="aBA-Oq-cQ2" firstAttribute="centerX" secondItem="iTV-D8-FTM" secondAttribute="centerX" id="sTI-Wv-CsM"/>
+                            <constraint firstItem="ph4-I5-W50" firstAttribute="top" secondItem="aBA-Oq-cQ2" secondAttribute="bottom" constant="186" id="saD-hQ-d4q"/>
                             <constraint firstItem="FQX-22-cfF" firstAttribute="top" secondItem="2TK-7J-wrl" secondAttribute="bottom" constant="8" id="tCR-KP-zHQ"/>
                             <constraint firstItem="FQX-22-cfF" firstAttribute="centerX" secondItem="MKq-OU-ta8" secondAttribute="centerX" id="vNQ-t7-IPQ"/>
                         </constraints>

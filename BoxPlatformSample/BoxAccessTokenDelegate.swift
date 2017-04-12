@@ -12,7 +12,7 @@ class BoxAccessTokenDelegate {
     
     static func retrieveBoxAccessToken(auth0IdentityToken: String, completion: ((String?, Date?, Error?) -> Void)!) {
         //Change this value to your own webtask
-        let refreshUrl: String = "https://amgro.us.webtask.io/auth0-box-platform/api/token"
+        let refreshUrl: String = "https://allenm.us.webtask.io/auth0-box-platform/api/token"
         let json: [String: Any] = ["token": "\(auth0IdentityToken)"]
         let jsonData = try? JSONSerialization.data(withJSONObject: json)
         
@@ -58,13 +58,7 @@ class BoxAccessTokenDelegate {
                     return
                 }
                 print("The token is: " + accessToken)
-                
-                guard let expirationTimeStamp = boxToken["expires_at"] as? Double else {
-                    print("Could not get expiration from JSON")
-                    return
-                }
-                print("The token expiration is at: " + String(expirationTimeStamp))
-                let expirationDate = Date.init(timeIntervalSince1970: expirationTimeStamp)
+                let expirationDate = Date.init(timeIntervalSinceNow: 3300)
                 completion(accessToken, expirationDate, nil)
             } catch  {
                 print("error trying to convert data to JSON")

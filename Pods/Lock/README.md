@@ -1,9 +1,9 @@
-# Lock
+# Lock.swift
 
-[![Build Status](https://travis-ci.org/auth0/Lock.iOS-OSX.svg?branch=master)](https://travis-ci.org/auth0/Lock.iOS-OSX)
-[![Version](https://img.shields.io/cocoapods/v/Lock.svg?style=flat)](http://cocoadocs.org/docsets/Lock)
-[![License](https://img.shields.io/cocoapods/l/Lock.svg?style=flat)](http://cocoadocs.org/docsets/Lock)
-[![Platform](https://img.shields.io/cocoapods/p/Lock.svg?style=flat)](http://cocoadocs.org/docsets/Lock)
+[![CircleCI](https://img.shields.io/circleci/project/github/auth0/Lock.swift.svg?style=flat-square)](https://circleci.com/gh/auth0/Lock.swift/tree/master)
+[![Version](https://img.shields.io/cocoapods/v/Lock.svg?style=flat-square)](http://cocoadocs.org/docsets/Lock)
+[![License](https://img.shields.io/cocoapods/l/Lock.svg?style=flat-square)](http://cocoadocs.org/docsets/Lock)
+[![Platform](https://img.shields.io/cocoapods/p/Lock.svg?style=flat-square)](http://cocoadocs.org/docsets/Lock)
 
 [Auth0](https://auth0.com) is an authentication broker that supports social identity providers as well as enterprise identity providers such as Active Directory, LDAP, Google Apps and Salesforce.
 
@@ -14,32 +14,57 @@ Lock makes it easy to integrate SSO in your app. You won't have to worry about:
 * Solving the home realm discovery challenge with enterprise users (i.e.: asking the enterprise user the email, and redirecting to the right enterprise identity provider).
 * Implementing a standard sign in protocol (OpenID Connect / OAuth2 Login)
 
-![iOS Gif](https://cloudup.com/cnccuUlFiYI+)
-
-## Key features
-
-* **Integrates** your iOS app with **Auth0**
-* Provides a **beautiful native UI** to log your users in.
-* Provides support for **Social Providers** (Facebook, Twitter, etc.), **Enterprise Providers** (AD, LDAP, etc.) and **Username & Password**.
-* Provides the ability to do **SSO** with 2 or more mobile apps similar to Facebook and Messenger apps.
-* [1Password](https://agilebits.com/onepassword) integration using [iOS Extension](https://github.com/AgileBits/onepassword-app-extension).
-* Passwordless authentication using **TouchID**, **Email** and **SMS**.
+Need help migrating from v1? Please check our [Migration Guide](MIGRATION.md)
 
 ## Requirements
 
-You'll need iOS 7 or later, if you need to use it with an older version please use our previous SDK pod `Auth0Client` or check the branch [old-sdk](https://github.com/auth0/Lock.iOS-OSX/tree/old-sdk) of this repository.
+- iOS 9 or later
+- Xcode 8
+- Swift 3.0
 
 ## Install
 
-The Lock is available through [CocoaPods](http://cocoapods.org). To install it, simply add the following line to your Podfile:
+### CocoaPods
 
-```ruby
-pod "Lock", "~> 1.28"
+ Add the following line to your Podfile:
+
+ ```ruby
+ pod "Lock", "~> 2.1.0"
+ ```
+
+### Carthage
+
+In your `Cartfile` add
+
+```
+github "auth0/Lock.swift" "2.0.0"
 ```
 
-## Before Getting Started
+## Usage
 
-Create a file named `Auth0.plist` and add it to your Application Target, this file should have your Auth0 ClientId and Domain that you can get from [our dashboard](https://app.auth0.com/#/applications)
+First import **Lock**
+
+```swift
+import Lock
+```
+
+Next in your `AppDelegate.swift` add the following:
+
+```swift
+func application(_ app: UIApplication, open url: URL, options: [UIApplicationOpenURLOptionsKey : Any]) -> Bool {
+  return Lock.resumeAuth(url, options: options)
+}
+```
+
+### Configuration
+
+In order to use Lock you need to provide your Auth0 Client Id and Domain.
+
+> Auth0 ClientId & Domain can be found in your [Auth0 Dashboard](https://manage.auth0.com)
+
+#### Auth0.plist file
+
+In your application bundle you can add a `plist` file named `Auth0.plist` with the following format
 
 ```xml
 <?xml version="1.0" encoding="UTF-8"?>
@@ -54,300 +79,236 @@ Create a file named `Auth0.plist` and add it to your Application Target, this fi
 </plist>
 ```
 
-Whenever you need to use Lock, you'll have to import either the ObjC header or a Swift module in your source code, the differents ways to do it are detailed next:
+### Classic
 
-### Objective-C
-Just import in your source file Lock's header:
+Lock Classic handles authentication using Database, Social & Enterprise connections.
 
-```objc
-#import <Lock/Lock.h>
-```
-
-### Swift & Lock Static Library
-In your target's _Objective-C Bridging Header_ just import Lock's header
-
-```objc
-#import <Lock/Lock.h>
-```
-
-> If you need help creating the Objective-C Bridging Header, please check the [wiki](https://developer.apple.com/library/ios/documentation/swift/conceptual/buildingcocoaapps/MixandMatch.html)
-
-### Swift & Lock Framework
-Import Lock module in your swift file:
+To show Lock, add the following snippet in your `UIViewController`
 
 ```swift
-import Lock
+Lock
+    .classic()
+    .withOptions {
+        $0.closable = false
+    }
+    .withStyle {
+      $0.title = "Welcome to my App!"
+    }
+    .onAuth {
+      print("Obtained credentials \($0)")
+    }
+    .onError {
+      print("Failed with \($0)")
+    }
+    onCancel {
+      print("User cancelled")
+    }
+    .present(from: self)
 ```
 
-> Make sure you have the flag `use_frameworks!` added in your `Podfile` so that Lock is build as a Framework, otherwise Xcode wont find it.
+#### Specify Connections
 
-### Integrate with your Application
+Lock will automatically load your client configuration automatically, if you wish to override this behaviour you can manually specify which of your connections to use.  
 
-Lock needs to be notified for some of your application state changes and some events/notifications your application receives from the OS. You can do all these things in the `AppDelegate`
+Before presenting Lock you can tell it what connections it should display and use to authenticate an user. You can do that by calling the method and supply a closure that can specify the connections.
 
-#### Application finished launching
-
-```objc
-- (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
-	[[A0Lock sharedLock] applicationLaunchedWithOptions:launchOptions];
-	//Your code
-	return YES;
-}
-```
+Adding a database connection:
 
 ```swift
-func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
-	A0Lock.sharedLock().applicationLaunchedWithOptions(launchOptions)
-	//Your code
-	return true
+.withConnections {
+    $0.database(name: "Username-Password-Authentication", requiresUsername: true)
 }
 ```
 
-#### Application is asked to open URL
+Adding multiple social connections:
 
-```objc
-- (BOOL)application:(UIApplication *)application openURL:(NSURL *)url sourceApplication:(NSString *)sourceApplication annotation:(id)annotation {
-    return [[A0Lock sharedLock] handleURL:url sourceApplication:sourceApplication];
-}
-```
 ```swift
-func application(application: UIApplication, openURL url: NSURL, sourceApplication: String?, annotation: AnyObject?) -> Bool {
-    return A0Lock.sharedLock().handleURL(url, sourceApplication: sourceApplication)
-}
-```
-
-#### Application is asked to continue a User Activity
-
-```objc
-- (BOOL)application:(UIApplication *)application continueUserActivity:(NSUserActivity *)userActivity restorationHandler:(void (^)(NSArray * _Nullable))restorationHandler {
-    return [[A0Lock sharedLock] continueUserActivity:userActivity restorationHandler:restorationHandler];
-}
+connections.database(name: "{CONNECTION_NAME}", requiresUsername: true)
 ```
 
 ```swift
-func application(application: UIApplication, continueUserActivity userActivity: NSUserActivity, restorationHandler: ([AnyObject]?) -> Void) -> Bool {
-	return A0Lock.sharedLock().continueUserActivity(userActivity, restorationHandler:restorationHandler)
+.withConnections { connections in
+    connections.social(name: "facebook", style: .Facebook)
+    connections.social(name: "google-oauth2", style: .Google)
 }
 ```
 
-## Usage
+### Logging
 
-### Email/Password, Enterprise & Social authentication
+You can easily turn on/off logging capabilities.
 
-`A0LockViewController` will handle Email/Password, Enterprise & Social authentication based on your Application's connections enabled in your Auth0's Dashboard.
-
-First instantiate `A0LockViewController` and register the authentication callback that will receive the authenticated user's credentials. Finally present it as a modal view controller:
-
-```objc
-A0Lock *lock = [A0Lock sharedLock];
-A0LockViewController *controller = [lock newLockViewController];
-controller.onAuthenticationBlock = ^(A0UserProfile *profile, A0Token *token) {
-    // Do something with token & profile. e.g.: save them.
-    // Lock will not save the Token and the profile for you.
-    // And dismiss the UIViewController.
-    [self dismissViewControllerAnimated:YES completion:nil];
-};
-[lock presentLockController:controller fromController:self];
-```
 ```swift
-let lock = A0Lock.sharedLock()
-let controller = lock.newLockViewController()
-controller.onAuthenticationBlock = {(profile, token) in
-    // Do something with token & profile. e.g.: save them.
-    // Lock will not save the Token and the profile for you.
-    // And dismiss the UIViewController.
-    self.dismissViewControllerAnimated(true, completion: nil)
+Lock
+    .classic()
+    .withOptions {
+        $0.logLevel = .all
+        $0.logHttpRequest = true
+    }
+```
+
+## Styling Lock
+
+Lock provides many styling options to help you apply your own brand identity to Lock.
+
+### Customize your header and primary color
+
+```swift
+.withStyle {
+  $0.title = "Company LLC"
+  $0.logo = LazyImage(name: "company_logo")
+  $0.primaryColor = UIColor(red: 0.6784, green: 0.5412, blue: 0.7333, alpha: 1.0)
 }
-lock.presentLockController(controller, fromController: self)
-```
-And you'll see our native login screen
-
-[![Lock.png](http://blog.auth0.com.s3.amazonaws.com/Lock-Widget-Screenshot.png)](https://auth0.com)
-
-> By default all social authentication will be done using web based authentication, if you want native integration please check this [docs page](https://auth0.com/docs/libraries/lock-ios/native-social-authentication).
-
-Also you can check our quickstart guides for:
-- [Swift](https://auth0.com/docs/quickstart/native/ios-swift)
-- [Objective-C](https://auth0.com/docs/quickstart/native/ios-objc)
-
-#### Important: Google Connections
-
-Google recently announced they will no longer support web-views, it is *highly recommended* you update your code to use Safari for web based authentication.
-
-##### Podfile
-
-Update your Podfile to include:
-
-```ruby
-pod 'Lock/Safari'
 ```
 
-You should add the following code before you present Lock to the user. If you have multiple connections you wish to
-use with Safari you will need to specify each one manually as above.
+> You can explore the full range of styling options in [Style.swift](https://github.com/auth0/Lock.iOS-OSX/blob/v2/Lock/Style.swift)
 
-To use Safari for the default Google social connection, add the following:
-
-##### Objective-C
-
-```objc
-#import <Lock/A0SafariAuthenticator.h>
-```
-
-```objc
-A0Lock *lock = [A0Lock sharedLock];
-A0SafariAuthenticator *safari = [[A0SafariAuthenticator alloc] initWithLock:lock connectionName:@"google-oauth2"];
-[lock registerAuthenticators:@[safari]];   
-```
-
-##### Swift
+### Styling a custom OAuth2 connection
 
 ```swift
-let lock = A0Lock.shared()
-let safari = A0SafariAuthenticator(lock: lock, connectionName: "google-oauth2")
-lock.registerAuthenticators([safari])    
-```
-
-### TouchID
-
-`A0TouchIDLockViewController` authenticates without using a password with TouchID. In order to be able to authenticate the user, your application must have a Database connection enabled.
-
-Add the following line to your Podfile:
-
-```ruby
-pod "Lock/TouchID", "~> 1.28"
-```
-
-First instantiate `A0TouchIDLockViewController` and register the authentication callback that will receive the authenticated user's credentials. Finally present it to the user:
-
-```objc
-A0Lock *lock = [A0Lock sharedLock];
-A0TouchIDLockViewController *controller = [lock newTouchIDViewController];
-controller.onAuthenticationBlock = ^(A0UserProfile *profile, A0Token *token) {
-    // Do something with token & profile. e.g.: save them.
-    // Lock will not save the Token and the profile for you.
-    // And dismiss the UIViewController.
-    [self dismissViewControllerAnimated:YES completion:nil];
-};
-[lock presentTouchIDController:controller fromController:self];
-```
-
-```swift
-let lock = A0Lock.sharedLock()
-let controller = lock.newTouchIDViewController()
-controller.onAuthenticationBlock = {(profile, token) in
-    // Do something with token & profile. e.g.: save them.
-    // Lock will not save the Token and the profile for you.
-    // And dismiss the UIViewController.
-    self.dismissViewControllerAnimated(true, completion: nil)
+.withStyle {
+  $0.oauth2["slack"] = AuthStyle(
+      name: "Slack",
+      color: UIColor(red: 0.4118, green: 0.8078, blue: 0.6588, alpha: 1.0),
+      withImage: LazyImage(name: "ic_slack")
+  )
 }
-lock.presentTouchIDController(controller, fromController: self)
-```
-And you'll see TouchID login screen
-
-[![Lock.png](http://blog.auth0.com.s3.amazonaws.com/Lock-TouchID-Screenshot.png)](https://auth0.com)
-
-> Because it uses a Database connection, the user can change it's password and authenticate using email/password whenever needed. For example when you change your device.
-
-### SMS
-
-`A0SMSLockViewController` authenticates without using a password with SMS. In order to be able to authenticate the user, your application must have the SMS connection enabled and configured in your [dashboard](https://app.auth0.com/#/connections/passwordless).
-
-Add the following line to your Podfile:
-
-```ruby
-pod "Lock/SMS", "~> 1.28"
 ```
 
-First instantiate `A0SMSLockViewController` and register the authentication callback that will receive the authenticated user's credentials.
+## Customization options
 
-Finally present it to the user:
+Lock provides numerous options to customize the Lock experience.
 
-```objc
-A0Lock *lock = [A0Lock sharedLock];
-A0SMSLockViewController *controller = [lock newSMSViewController];
-controller.useMagicLink = YES;
-controller.onAuthenticationBlock = ^(A0UserProfile *profile, A0Token *token) {
-    // Do something with token & profile. e.g.: save them.
-    // Lock will not save the Token and the profile for you.
-    // And dismiss the UIViewController.
-    [self dismissViewControllerAnimated:YES completion:nil];
-};
-[lock presentSMSController:controller fromController:self];
-```
+#### Closable
+
+Allows Lock to be dismissed by the user. By default this is `false`.
 
 ```swift
-let lock = A0Lock.sharedLock()
-let controller = lock.newSMSViewController()
-controller.useMagicLink = true
-controller.onAuthenticationBlock = {(profile, token) in
-    // Do something with token & profile. e.g.: save them.
-    // Lock will not save the Token and the profile for you.
-    // And dismiss the UIViewController.
-    self.dismissViewControllerAnimated(true, completion: nil)
+.withOptions {
+    $0.closable = true
 }
-lock.presentSMSController(controller, fromController: self)
-```
-And you'll see SMS login screen
-
-[![Lock.png](http://blog.auth0.com.s3.amazonaws.com/Lock-SMS-Screenshot.png)](https://auth0.com)
-
-### Email
-
-`A0EmailLockViewController` authenticates without using a password with Email. In order to be able to authenticate the user, your application must have the Email connection enabled and configured in your [dashboard](https://app.auth0.com/#/connections/passwordless).
-
-Add the following line to your Podfile:
-
-```ruby
-pod "Lock/Email", "~> 1.28"
 ```
 
-First instantiate `A0EmailLockViewController` and register the authentication callback that will receive the authenticated user's credentials.
+#### Terms of Service
 
-Finally present it to the user:
-
-```objc
-A0Lock *lock = [A0Lock sharedLock];
-A0EmailLockViewController *controller = [lock newEmailViewController];
-controller.useMagicLink = YES;
-controller.onAuthenticationBlock = ^(A0UserProfile *profile, A0Token *token) {
-    // Do something with token & profile. e.g.: save them.
-    // Lock will not save the Token and the profile for you.
-    // And dismiss the UIViewController.
-    [self dismissViewControllerAnimated:YES completion:nil];
-};
-[lock presentEmailController:controller fromController:self];
-```
+By default Lock will use Auth0's [Terms of Service](https://auth0.com/terms) and [Privacy Policy](https://auth0.com/privacy)
 
 ```swift
-let lock = A0Lock.sharedLock()
-let controller = lock.newEmailViewController()
-controller.useMagicLink = true
-lock.onAuthenticationBlock = {(profile, token) in
-    // Do something with token & profile. e.g.: save them.
-    // Lock will not save the Token and the profile for you.
-    // And dismiss the UIViewController.
-    self.dismissViewControllerAnimated(true, completion: nil)
+.withOptions {
+  $0.termsOfService = "https://mycompany.com/terms"
+  $0.privacyPolicy = "https://mycompany.com/privacy"
 }
-lock.presentEmailController(controller, fromController: self)
 ```
 
-## SSO
+#### Logging
 
-A very cool thing you can do with Lock is use SSO. Imagine you want to create 2 apps. However, you want that if the user is logged in in app A, he will be already logged in in app B as well. Something similar to what happens with Messenger and Facebook as well as Foursquare and Swarm.
+* **logLevel**: By default this is `.off`, *Syslog* logging levels are supported.
+* **logHttpRequest**: Log Auth0.swift API requests. By default this is `false`
+* **loggerOutput**: Specify output handler, by default this uses the `print` statement.
 
-Read [this guide](https://auth0.com/docs/libraries/lock-ios/sso-on-mobile-apps) to learn how to accomplish this with this library.
+```swift
+.withOptions {
+    $0.logLevel = .all
+    $0.logHttpRequest = true
+    $0.loggerOutput = CleanroomLockLogger()
+}
+```
 
-## Documentation
-You can find the full documentation for this library on that [Auth0 doc site](https://auth0.com/docs/libraries/lock-ios). Additionally, you can browse the full API on [CocoaDocs](http://cocoadocs.org/docsets/Lock).
+In the code above, the *loggerOutput* has been set to use [CleanroomLogger](https://github.com/emaloney/CleanroomLogger).
+This can typically be achieved by implementing the *loggerOutput* protocol.  You can of course use your favorite logger library.
+
+```swift
+class CleanroomLockLogger: LoggerOutput {
+  func message(_ message: String, level: LoggerLevel, filename: String, line: Int) {
+    let channel: LogChannel?
+    switch level {
+    case .debug:
+        channel = Log.debug
+    case .error:
+        channel = Log.error
+    case .info:
+        channel = Log.info
+    case .verbose:
+        channel = Log.verbose
+    case .warn:
+        channel = Log.warning
+    default:
+        channel = nil
+    }
+    channel?.message(message, filePath: filename, fileLine: line)
+  }
+}
+```
+
+#### Scope
+
+Scope used for authentication. By default is `openid`. It will return not only the **access_token**, but also an **id_token** which is a [JSON Web Token (JWT)](https://jwt.io/) containing user information.
+
+```swift
+.withOptions {
+  $0.scope = "openid name email picture"
+}
+```
+
+#### Connection Scope
+
+Allows you to set provider scopes for oauth2/social connections with a comma separated list. By default is empty.
+
+```swift
+.withOptions {
+  $0.connectionScope = ["facebook": "user_friends,email"]
+}
+```
+
+#### Database
+
+* **allow**: Which database screens will be accessible, the default is enable all screens e.g. `.Login, .Signup, .ResetPassword`
+* **initialScreen**: The first screen to present to the user, the default is `.login`.
+* **usernameStyle**: Specify the type of identifier the login will require.  The default is either `[.Username, .Email]`.  However it's important to note that this option is only active if you have set the **requires_username** flag to `true` in your [Auth0 Dashboard](https://manage.auth0.com/#/)
+
+```swift
+.withOptions {
+  $0.allow = [.Login, .ResetPassword]
+  $0.initialScreen = .login
+  $0.usernameStyle = [.Username]
+}
+```
+
+#### Custom Signup Fields
+
+When signing up the default information requirements are the user's *email* and *password*. You can expand your data capture requirements as needed.
+
+```swift
+.withOptions {
+  $0.customSignupFields = [
+    CustomTextField(name: "first_name", placeholder: "First Name", icon: LazyImage(name: "ic_person", bundle: Lock.bundle)),
+    CustomTextField(name: "last_name", placeholder: "Last Name", icon: LazyImage(name: "ic_person", bundle: Lock.bundle))
+  ]
+}
+```
+
+*Note: You must specify the icon to use with your custom text field and store it in your App's bundle.*
+
+#### Enterprise
+
+* *enterpriseConnectionUsingActiveAuth*: By default Enterprise connections will use Web Authentication. However you can specify which connections will alternatively use credential authentication and prompt for a username and password.
+* *activeDirectoryEmailAsUsername*: When Lock request your enterprise credentials after performing Home Realm Discovery (HRD), e.g. for Active Directory, it will try to prefill the username for you. By default it will parse the email's local part and use that as the username, e.g. `john.doe@auth0.com` will be `john.doe`. If you don't want that you can turn on this flag and it will just use the email address.
+
+```swift
+.withOptions {
+  $0.activeDirectoryEmailAsUsername = true
+  $0.enterpriseConnectionUsingActiveAuth = ["enterprisedomain.com"]
+}
+```
 
 ## What is Auth0?
 
 Auth0 helps you to:
 
 * Add authentication with [multiple authentication sources](https://docs.auth0.com/identityproviders), either social like **Google, Facebook, Microsoft Account, LinkedIn, GitHub, Twitter, Box, Salesforce, amont others**, or enterprise identity systems like **Windows Azure AD, Google Apps, Active Directory, ADFS or any SAML Identity Provider**.
+* Add support for [Custom OAuth2 Connections](https://auth0.com/docs/connections/social/oauth2).
 * Add authentication through more traditional **[username/password databases](https://docs.auth0.com/mysql-connection-tutorial)**.
 * Add support for **[linking different user accounts](https://docs.auth0.com/link-accounts)** with the same user.
-* Support for generating signed [Json Web Tokens](https://docs.auth0.com/jwt) to call your APIs and **flow the user identity** securely.
+* Support for generating signed [JSON Web Tokens](https://docs.auth0.com/jwt) to call your APIs and **flow the user identity** securely.
 * Analytics of how, when and where users are logging in.
 * Pull data from other sources and add it to the user profile, through [JavaScript rules](https://docs.auth0.com/rules).
 

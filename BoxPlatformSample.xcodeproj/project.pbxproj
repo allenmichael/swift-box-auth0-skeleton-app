@@ -17,6 +17,8 @@
 		2928AC4F1E2432EB006DCB7F /* ProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2928AC4E1E2432EB006DCB7F /* ProfileViewController.swift */; };
 		2928AC511E24377D006DCB7F /* Auth0.plist in Resources */ = {isa = PBXBuildFile; fileRef = 2928AC501E24377D006DCB7F /* Auth0.plist */; };
 		2928AC531E243B23006DCB7F /* BoxAccessTokenDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2928AC521E243B23006DCB7F /* BoxAccessTokenDelegate.swift */; };
+		293363B91E9E8148001305ED /* SessionManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 293363B81E9E8148001305ED /* SessionManager.swift */; };
+		293363BB1E9E8C8E001305ED /* UIAlertControllerExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 293363BA1E9E8C8E001305ED /* UIAlertControllerExtension.swift */; };
 		3C806A62AEB844BCD0B9C9CE /* Pods_BoxPlatformSampleTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D8A3DD901030602327472C4E /* Pods_BoxPlatformSampleTests.framework */; };
 		7BBEF23F2155690EEFA24368 /* Pods_BoxPlatformSample.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9DF14460D270B6816000B18B /* Pods_BoxPlatformSample.framework */; };
 		C10DB4D32EFC7E6914F8B0FA /* Pods_BoxPlatformSampleUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F42A9F668B4C51B9965EA696 /* Pods_BoxPlatformSampleUITests.framework */; };
@@ -56,6 +58,8 @@
 		2928AC4E1E2432EB006DCB7F /* ProfileViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProfileViewController.swift; sourceTree = "<group>"; };
 		2928AC501E24377D006DCB7F /* Auth0.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Auth0.plist; sourceTree = "<group>"; };
 		2928AC521E243B23006DCB7F /* BoxAccessTokenDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BoxAccessTokenDelegate.swift; sourceTree = "<group>"; };
+		293363B81E9E8148001305ED /* SessionManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SessionManager.swift; sourceTree = "<group>"; };
+		293363BA1E9E8C8E001305ED /* UIAlertControllerExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UIAlertControllerExtension.swift; sourceTree = "<group>"; };
 		48259027B861B6E850436B12 /* Pods-BoxPlatformSample.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-BoxPlatformSample.release.xcconfig"; path = "Pods/Target Support Files/Pods-BoxPlatformSample/Pods-BoxPlatformSample.release.xcconfig"; sourceTree = "<group>"; };
 		58EAFB24F06D182B8E397D60 /* Pods-BoxPlatformSampleUITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-BoxPlatformSampleUITests.release.xcconfig"; path = "Pods/Target Support Files/Pods-BoxPlatformSampleUITests/Pods-BoxPlatformSampleUITests.release.xcconfig"; sourceTree = "<group>"; };
 		615086118715F1F27645C9DE /* Pods-BoxPlatformSampleTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-BoxPlatformSampleTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-BoxPlatformSampleTests/Pods-BoxPlatformSampleTests.debug.xcconfig"; sourceTree = "<group>"; };
@@ -124,8 +128,10 @@
 				2928AC221E242FB2006DCB7F /* Main.storyboard */,
 				2928AC4E1E2432EB006DCB7F /* ProfileViewController.swift */,
 				2928AC4C1E243003006DCB7F /* HomeViewController.swift */,
+				293363BA1E9E8C8E001305ED /* UIAlertControllerExtension.swift */,
 				2928AC521E243B23006DCB7F /* BoxAccessTokenDelegate.swift */,
 				2928AC501E24377D006DCB7F /* Auth0.plist */,
+				293363B81E9E8148001305ED /* SessionManager.swift */,
 				2928AC251E242FB2006DCB7F /* Assets.xcassets */,
 				2928AC271E242FB2006DCB7F /* LaunchScreen.storyboard */,
 				2928AC2A1E242FB2006DCB7F /* Info.plist */,
@@ -227,6 +233,7 @@
 				2928AC371E242FB2006DCB7F /* Frameworks */,
 				2928AC381E242FB2006DCB7F /* Resources */,
 				5F07A886B5B2E1EC2CF37ABF /* [CP] Copy Pods Resources */,
+				193A2191965B3091D3568734 /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -313,6 +320,21 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
+		193A2191965B3091D3568734 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-BoxPlatformSampleUITests/Pods-BoxPlatformSampleUITests-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
 		365740C26B51417E5E1D1532 /* [CP] Embed Pods Frameworks */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -340,7 +362,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [[ $? != 0 ]] ; then\n    cat << EOM\nerror: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\nEOM\n    exit 1\nfi\n";
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n";
 			showEnvVarsInLog = 0;
 		};
 		5F07A886B5B2E1EC2CF37ABF /* [CP] Copy Pods Resources */ = {
@@ -370,7 +392,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [[ $? != 0 ]] ; then\n    cat << EOM\nerror: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\nEOM\n    exit 1\nfi\n";
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n";
 			showEnvVarsInLog = 0;
 		};
 		9F7187B010106950243570FD /* [CP] Embed Pods Frameworks */ = {
@@ -430,7 +452,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [[ $? != 0 ]] ; then\n    cat << EOM\nerror: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\nEOM\n    exit 1\nfi\n";
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n";
 			showEnvVarsInLog = 0;
 		};
 /* End PBXShellScriptBuildPhase section */
@@ -442,7 +464,9 @@
 			files = (
 				2928AC1F1E242FB2006DCB7F /* AppDelegate.swift in Sources */,
 				2928AC4D1E243003006DCB7F /* HomeViewController.swift in Sources */,
+				293363BB1E9E8C8E001305ED /* UIAlertControllerExtension.swift in Sources */,
 				2928AC531E243B23006DCB7F /* BoxAccessTokenDelegate.swift in Sources */,
+				293363B91E9E8148001305ED /* SessionManager.swift in Sources */,
 				2928AC4F1E2432EB006DCB7F /* ProfileViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

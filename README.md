@@ -63,6 +63,7 @@ The remaining documentation describes how to switch the existing credentials to 
     * Domain
     * Client ID
 6. You'll need to register a callback URL for Auth0's Lock library. Follow the steps outlined [here](https://auth0.com/docs/quickstart/native/ios-swift#configure-callback-urls)
+    * *Note: You can skip this step while testing.* 
 
 #### Step 2. Install the Box Platform Extension
 1. Within your Auth0 Dashboard, click the *Extensions* tab.
